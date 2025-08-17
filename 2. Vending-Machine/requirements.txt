@@ -1,0 +1,74 @@
+1. Requirements Gathering & Clarification
+
+    - Vending Machine has diff products with diff prices
+    - It should accept coins and notes
+    - Only handles cash for now; cards/mobile payments are out of scope
+    - After getting money machine should return changes 
+    - Keep track of available products and quanities
+    - It should handle multiple transactions 
+    - Should handle exceptional scenarios, such as insufficient funds or out-of-stock products.
+        insufficient funds   : machine shows required balance, User may insert more coins or press Cancel to get refund
+                            and display "You need to give <Amount> more, to purches <Product>"
+        out-of-stock product : if product is out of stock then return the money 
+                            and display "Your Ordered Product is out of stock now, Please choose another one"
+
+    - It should provide an interface for restocking products and collecting money
+        I dont understand this part will think abt it once start to solve 
+    - Provides an admin interface for restocking:
+        - Add more products and coins/notes to machine.
+        - Collect total cash for accounting.
+        - Possibly update product prices?
+    - Basic display panel for user messages: instructions, errors, product status
+    - Security: Only allow admin access to restock/manage machine
+
+
+2. Identify Core Entities
+
+    - User Roles
+        - Customer : can buy products, insert money, receive change or product
+        - Admin    : can restock products, collect cash, maintaine machine
+
+    - Payment Acceptance 
+        - Coins/Notes     : System support only specific denominations (e.g., ₹1, ₹2, ₹5, ₹10, ₹20, ₹50)
+        - Online Payments : lets considet it later
+
+    - Products 
+        - Product Name        : it will tell product name 
+        - Product Stored ID   : Slot/location number (displays on machine and helps operator restock or for customer to buy product)
+        - Product Price       : it will tell price of product (adjusted by admin)
+        - Product Quantity    : It will tell how much products are there in machine 
+
+    - Display Board
+        - Home Screen       : Shows machine status, welcome message, or company name
+        - Selection Screen  : After getting cash, show available product slots (with numbers and buy/selection button)
+        - Messages/Prompts  : Display successful purchase, errors (like insufficient cash, out-of-stock)
+
+    - Cash Management
+        - Accept and temporarily store customer cash until a purchase is confirmed
+        - After user click on product number check if cash given is sufficient, insufficient, or more 
+            then return cash accordingly
+
+    - Invetory 
+        - Tracks quantity of stock if anything needs to add more or change prices
+        - Map<product, quantity>
+
+    - State : (Idle, HasMoney, Dispensing, OutOfStock)
+        - If machine is Idle (no money yet)     ->  you can insert money, but you cant select product
+        - If machine HasMoney                   ->  you can select a product, but you cant insert admin password right now
+        - If machine is Dispensing              ->  it wont accept more coins until it finishes
+        - If machine is OutOfStock              ->  it should block product selection and return money back
+
+        - Example Flow with States
+            - Machine starts in IdleState
+            - Allowed action: insertCoin()
+            - User inserts ₹10   -> machine moves to HasMoneyState
+            - Allowed actions    -> selectProduct(), insertMoreCoins()
+            - User selects Pepsi (₹15) but balance is ₹10   -> machine stays in HasMoneyState, shows "Need 5 more"
+            - User inserts ₹5 more  -> balance = 15         -> machine transitions to DispensingState
+            - Machine dispenses product, returns any change -> goes back to IdleState
+        
+        - If user doesnt have money, then how to cancel it  
+            - IdleState         -> Cancel does nothing (no money to return)
+            - HasMoneyState     -> Cancel returns inserted money -> goes back to Idle
+            - DispensingState   -> Cancel usually ignored (transaction already committed)
+            - OutOfStockState   -> Cancel returns money -> back to Idle 
