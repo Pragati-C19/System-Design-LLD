@@ -72,3 +72,41 @@
             - HasMoneyState     -> Cancel returns inserted money -> goes back to Idle
             - DispensingState   -> Cancel usually ignored (transaction already committed)
             - OutOfStockState   -> Cancel returns money -> back to Idle 
+
+
+
+3. Class Design 
+
+    Core Classes
+
+        - VendingMachine
+            - Fields: State currentState, Inventory inventory, CashManager cashManager, DisplayPanel displayPanel
+            - Methods: insertCoin(), selectProduct(), cancel(), dispense()
+        
+        - Product
+            - Fields: id, name, price
+            - (quantity tracked separately in Inventory)
+        
+        - Inventory
+            - Fields: Map<Product, Integer> stock
+            - Methods: addProduct(), removeProduct(), getQuantity()
+        
+        - CashManager
+            - Fields: Map<Integer, Integer> cashInventory (Money -> count)
+            - Methods: addCash(), deductCash(), returnChange(), getBalance()
+        
+        - DisplayPanel
+            - Method: showMessage(String message)
+        
+        - State (interface)
+            - Methods: insertCoin(int amount), selectProduct(String productId), dispense(), cancel()
+            
+        - Concrete States
+            - IdleState
+            - HasMoneyState
+            - DispensingState
+
+    Relationships
+        - VendingMachine has Inventory & CashManager
+        - VendingMachine delegates behavior to current State
+        - Admin operations affect Inventory & CashManager
