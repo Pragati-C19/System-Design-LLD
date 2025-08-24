@@ -3,6 +3,7 @@ public class VendingMachine {
     public static void main(String[] args) {
         
         Inventory inventory = new Inventory();
+        CashManagement cashManager = new CashManagement();
         
         Product coke = new Product(1, "Coke", 101,  40);
         Product pepsi = new Product(2, "Pepsi", 102, 30);
@@ -20,6 +21,7 @@ public class VendingMachine {
         System.out.println("    - Pepsi price = Rs." + pepsi.getPrice());
         System.out.println("    - Water slot code = " + water.getCode());
 
+    // ------------------------------------------------------------
 
         // Add product in inventory
         inventory.addProduct(coke, 5);
@@ -33,5 +35,25 @@ public class VendingMachine {
         // Try reducing product stock from inventory
         inventory.reduceQuantity(2);
         System.out.println("    - Pepsi left: " + inventory.getQuantity(2));
+
+
+    // ------------------------------------------------------------
+
+        System.out.println("Cash Management : ");
+        // Insert money
+        cashManager.insertCash(5);   // Accepted
+        cashManager.insertCash(10);  // Accepted
+        cashManager.insertCash(3);   // Not accepted (invalid denom)
+
+        // Check balance
+        System.out.println("    - Current Balance: Rs." + cashManager.getCurrentBalance());
+
+        // Try deducting
+        boolean success = cashManager.deduct(12);
+        System.out.println("    - Deduct 12: " + success + ", Remaining Balance: Rs." + cashManager.getCurrentBalance());
+
+        // Refund remaining balance
+        cashManager.refund();
+        System.out.println("    - Balance after refund: Rs." + cashManager.getCurrentBalance());
     }
 }
