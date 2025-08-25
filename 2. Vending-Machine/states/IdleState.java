@@ -13,7 +13,15 @@ public class IdleState implements State{
 
     public void insertCash(int amount) {
         
-        System.out.println("Coin inserted: " + amount);
+        // System.out.println("Coin inserted: " + amount);
+        
+        vendingMachine.getCashManagement().insertCash(amount);
+        
+        System.out.println("Inserted: " + amount + ". Balance = " 
+                           + vendingMachine.getCashManagement().getCurrentBalance());
+        
+        vendingMachine.setState(vendingMachine.getHasMoneyState());
+
     }
 
     public void selectProduct(int productId) {
@@ -26,7 +34,7 @@ public class IdleState implements State{
 
     public void dispense() {
 
-        System.out.println("No item selected.");
+        System.out.println("Cannot dispense. No money inserted.");
     }
 
 }

@@ -1,5 +1,6 @@
 package machine;
 
+import states.HasMoneyState;
 import states.IdleState;
 import states.State;
 
@@ -19,7 +20,7 @@ public class VendingMachine {
         CashManagement = new CashManagement();
 
         idleState = new IdleState(this);
-        // hasMoneyState = new HasMoneyState(this); // will implement soon
+        hasMoneyState = new HasMoneyState(this); // will implement soon
         // dispensingState = new DispensingState(this); // will implement soon
         // outOfStockState = new OutOfStockState(this); // will implement soon
 
@@ -42,6 +43,11 @@ public class VendingMachine {
     public void cancel() {
 
         currentState.cancel();
+    }
+
+    // Check current State
+    public State getCurrentState() {
+        return currentState;
     }
 
     // Set State Interface
