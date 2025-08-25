@@ -63,4 +63,8 @@ public class CashManagement {
         return refund;
     }
 
+    // Reset Balance to 0 after dispensing
+    public void resetBalance() {
+        currentBalance = 0;
+    }
 }
