@@ -1,3 +1,5 @@
+package states;
+
 public class VendingMachine {
     
     public void sayHello() {
