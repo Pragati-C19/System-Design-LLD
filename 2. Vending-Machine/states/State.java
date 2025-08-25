@@ -1,4 +1,5 @@
 package states;
+import machine.Product;
 
 public interface State {
 
@@ -8,6 +9,6 @@ public interface State {
 
     void cancel();
     
-    void dispense();
+    void dispense(Product product);
 }
 
