@@ -52,7 +52,7 @@ public class CashManagement {
         return true;
     }
 
-    // Return remaining balance as change
+    // Return full refund (cancel transaction)
     public int refund() {
         
         int refund = currentBalance;
@@ -67,4 +67,14 @@ public class CashManagement {
     public void resetBalance() {
         currentBalance = 0;
     }
+
+    // Return only the extra change after product purchase
+    public void refundChange(int changeAmount) {
+        
+        if (changeAmount <= 0) return;
+        
+        currentBalance -= changeAmount;
+        System.out.println("\tReturned change Rs." + changeAmount);
+    }
+
 }
