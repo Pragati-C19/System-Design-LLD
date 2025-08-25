@@ -1,4 +1,4 @@
-package src;
+package machine;
 public class Product {
     
     int productId;
