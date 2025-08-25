@@ -1,8 +1,8 @@
 package states;
 
-import src.VendingMachine;
+import machine.VendingMachine;
 
-public class IdleState {
+public class IdleState implements State{
 
     VendingMachine vendingMachine;
 
@@ -22,6 +22,11 @@ public class IdleState {
 
     public void cancel() {
         System.out.println("No money inserted. Nothing to cancel.");
+    }
+
+    public void dispense() {
+
+        System.out.println("No item selected.");
     }
 
 }
