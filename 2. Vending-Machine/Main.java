@@ -55,5 +55,11 @@ public class Main {
         // Refund remaining balance
         cashManager.refund();
         System.out.println("    - Balance after refund: Rs." + cashManager.getCurrentBalance());
+
+    // ------------------------------------------------------------
+    
+        VendingMachine vm = new VendingMachine();
+        vm.sayHello();
+
     }
 }
