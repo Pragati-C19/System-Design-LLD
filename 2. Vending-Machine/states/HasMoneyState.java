@@ -45,7 +45,7 @@ public class HasMoneyState implements State {
         }
 
         vendingMachine.setState(vendingMachine.getDispensingState());
-        vendingMachine.getCurrentState().dispense();
+        vendingMachine.getCurrentState().dispense(product);;
 
     }
 
@@ -53,7 +53,7 @@ public class HasMoneyState implements State {
         System.out.println("No money inserted. Nothing to cancel.");
     }
 
-    public void dispense() {
+    public void dispense(Product product) {
 
         System.out.println("Cannot dispense. No money inserted.");
     }

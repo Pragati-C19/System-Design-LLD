@@ -1,5 +1,6 @@
 package states;
 
+import machine.Product;
 import machine.VendingMachine;
 
 public class IdleState implements State{
@@ -32,7 +33,7 @@ public class IdleState implements State{
         System.out.println("No money inserted. Nothing to cancel.");
     }
 
-    public void dispense() {
+    public void dispense(Product product) {
 
         System.out.println("Cannot dispense. No money inserted.");
     }
