@@ -1,4 +1,7 @@
-import states.VendingMachine;
+import src.CashManagement;
+import src.Inventory;
+import src.Product;
+import src.VendingMachine;
 
 public class Main {
     
@@ -62,6 +65,9 @@ public class Main {
     
         VendingMachine vm = new VendingMachine();
         vm.sayHello();
+        // vm.selectProduct(101);   // Should say "Insert money first!"
+        // vm.insertCoin(10);       // Should say "Coin inserted: 10"
+        // vm.cancel();             // Should say "Nothing to cancel."
 
     }
 }

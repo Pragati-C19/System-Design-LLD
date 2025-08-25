@@ -1,5 +1,7 @@
 package states;
 
+import src.VendingMachine;
+
 public class IdleState {
 
     VendingMachine vendingMachine;
