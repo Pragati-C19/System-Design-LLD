@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 import machine.CashManagement;
 import machine.Inventory;
 import machine.Product;
@@ -26,7 +28,8 @@ public class Main {
         System.out.println("    - Pepsi price = Rs." + pepsi.getPrice());
         System.out.println("    - Water slot code = " + water.getCode());
 
-    // ------------------------------------------------------------
+        System.out.println("------------------------------------------------------------"); 
+
 
         // Add product in inventory
         inventory.addProduct(coke, 5);
@@ -42,7 +45,8 @@ public class Main {
         System.out.println("    - Pepsi left: " + inventory.getQuantity(2));
 
 
-    // ------------------------------------------------------------
+        System.out.println("------------------------------------------------------------"); 
+
 
         System.out.println("Cash Management : ");
         // Insert money
@@ -61,13 +65,52 @@ public class Main {
         cashManager.refund();
         System.out.println("    - Balance after refund: Rs." + cashManager.getCurrentBalance());
 
-    // ------------------------------------------------------------
+        System.out.println("------------------------------------------------------------"); 
     
-        VendingMachine vm = new VendingMachine();
-        vm.sayHello();
-        vm.selectProduct(101);   // Should say "Insert money first!"
-        vm.insertCash(10);       // Should say "Coin inserted: 10"
-        vm.cancel();             // Should say "Nothing to cancel."
+
+        VendingMachine vendingMachine = new VendingMachine();
+        
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        System.out.println("Welcome to the Vending Machine!");
+
+        while (running) {
+            System.out.println("\nCurrent State: " + vendingMachine.getCurrentStateName());
+            System.out.println("Choose an action:");
+            System.out.println("1. Insert Cash");
+            System.out.println("2. Select Product");
+            System.out.println("3. Cancel Transaction");
+            System.out.println("4. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter amount to insert: ");
+                    int amount = scanner.nextInt();
+                    vendingMachine.insertCash(amount);
+                    break;
+                case 2:
+                    System.out.print("Enter product ID to select: ");
+                    int productId = scanner.nextInt();
+                    vendingMachine.selectProduct(productId);
+                    break;
+                case 3:
+                    vendingMachine.cancel();
+                    break;
+                case 4:
+                    running = false;
+                    System.out.println("Thank you for using the vending machine!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+
+            }
+
+            }
+
+        scanner.close();
 
     }
 }

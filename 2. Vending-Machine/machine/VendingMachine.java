@@ -50,6 +50,11 @@ public class VendingMachine {
         return currentState;
     }
 
+    // Get curr State name to display on vendingMachine
+    public String getCurrentStateName() {
+        return currentState.getClass().getSimpleName();
+    }
+
     // Set State Interface
     public void setState(State state) {
         currentState = state;
