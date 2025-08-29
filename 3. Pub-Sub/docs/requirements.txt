@@ -1,0 +1,68 @@
+Step 1: Requirements Gathering & Clarification
+
+    - Read and break down the requirements:
+        - Allow multiple publishers and multiple subscribers.
+        - Publishers can publish messages to specific topics.
+        - Subscribers can subscribe to topics.
+        - Whenever a message is published to a topic, all current subscribers should receive it in real-time.
+        - The system should be thread-safe and support concurrent access.
+        - Needs to be scalable and efficient.
+
+    - Additional clarifications (ask these in interviews if missed):
+        - Do we expect persistent messages, or is in-memory fine?
+        - Are messages guaranteed to be delivered if a subscriber is slow/offline?
+        - Should subscribers get only new messages or all past messages after subscribing?
+        - Is ordering of message delivery important?
+
+Step 2: Use Cases
+
+    - Main Scenarios:
+
+        - A publisher posts a message to a topic.
+        - A subscriber subscribes to a topic.
+        - A subscriber unsubscribes from a topic.
+        - Each subscriber receives all published messages for their subscribed topics (live, not historical).
+        - System supports multiple concurrent publishers and subscribers.
+
+
+Step 3: Identify Key Entities/Classes
+
+    - Message: Represents the published message (e.g., content, timestamp, maybe id).
+    - Topic: Maintains a set of subscribers, has methods to add/remove subscribers, and to broadcast messages.
+    - Subscriber (Interface): Contract for how a subscriber handles a message (e.g., onMessage(Message message)).
+    - ConcreteSubscriber (e.g., PrintSubscriber): Implements Subscriber and handles receipt of messages (prints, logs, etc.).
+    - Publisher: Publishes messages to a topic (typically calls a method on Topic or PubSubSystem).
+    - PubSubSystem: Orchestrates the topics, subscriber registration, and concurrent message delivery. Manages all topics.
+    - Optionally: PubSubDemo: Driver class/runner to show working example.
+
+Step 4: Define Class Responsibilities
+    
+    Message
+        - Fields: message content, timestamp
+        - Methods: getters/setters
+
+    Topic
+        - Fields: topic name/id, set of subscribers (thread-safe, e.g., ConcurrentHashSet)
+        - Methods: 
+            - publishMessage(Message m): Sends to all subscribers
+            - addSubscriber(Subscriber s) 
+            - removeSubscriber(Subscriber s)
+
+    Subscriber (Interface)
+        - Methods:
+            - onMessage(Message m): Executed when a message is delivered.
+
+    PrintSubscriber (Concrete Implementation)
+        - Implements Subscriber, prints received messages.
+
+    Publisher
+        - Methods:
+            - publish(topic, message): Calls publishMessage on topic/system.
+
+    PubSubSystem
+        - Manages all topics (topic registry: ConcurrentHashMap<String, Topic>)
+        - Methods:
+            - createTopic(String name)    
+            - subscribe(String topicName, Subscriber sub) 
+            - publish(String topicName, Message m)    
+            - Thread Safety: Use concurrent data structures & ExecutorService to deliver messages to subscribers concurrently.
